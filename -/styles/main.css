@@ -272,6 +272,9 @@ input[type="checkbox"]:enabled {
 	max-width: calc(100% + 40px) !important;
 	margin-right: -20px !important;
 	margin-left: -20px !important;
+
+	aspect-ratio: 16 / 9 !important;
+	border: none !important;
 }
 
 article {
