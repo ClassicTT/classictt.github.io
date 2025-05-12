@@ -1,0 +1,48 @@
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+header {
+    background: #007acc;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    font-style: italic;
+}
+
+/* Article styles */
+article {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+article section {
+    margin-bottom: 20px;
+}
+
+article h2 {
+    color: #007acc;
+}
+
+/* Footer styles */
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+}
