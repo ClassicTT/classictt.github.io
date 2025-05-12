@@ -1,5 +1,6 @@
 function injectContent() {
-    document.getElementById('page-footer').innerHTML = "Classic Tech Tips 2025";
+    document.getElementById('page-footer').innerHTML = 'Classic Tech Tips 2025';
+    document.getElementById('page-nav').innerHTML = '<a href="/">Home</a>';
 }
 
 injectContent();
