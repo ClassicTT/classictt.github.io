@@ -21,7 +21,7 @@
 <body>
     
     <main>
-    <article>
+    <article class="snippets">
         <header>
             <h1>Welcome to my Blog!</h1>
             <br>
@@ -49,36 +49,57 @@
 
 
   <style>
-    .preview {
-      display: flex;
-      align-items: flex-start;
+    .snippets {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
       background-color: #111;
       color: #fff;
-      font-family: Arial, sans-serif;
-      width: 900px;
+    }
+    .preview {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      background-color: #111;
       padding: 10px;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .thumbnail {
-      width: 160px;
-      height: 90px;
+      flex: 0 0 auto;
+      width: 18%;
+      min-width: 120px;
       margin-right: 15px;
     }
     .thumbnail img {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: cover;
+      display: block;
     }
     .content {
       flex: 1;
+      min-width: 0;
     }
     .title {
-      font-size: 18px;
+      font-size: 1.2em;
       font-weight: bold;
       margin-bottom: 8px;
     }
     .description {
-      font-size: 14px;
+      font-size: 0.95em;
       color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      .preview {
+        flex-direction: column;
+      }
+      .thumbnail {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
     }
   </style>
   <div class="preview">
