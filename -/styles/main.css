@@ -35,11 +35,6 @@ header {
 	text-align: center;
 }
 
-.subtitle {
-	font-size: 1.1em;
-	font-style: italic;
-}
-
 article {
 	overflow: hidden;
 	padding: 10px;
