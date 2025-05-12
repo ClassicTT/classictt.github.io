@@ -1,4 +1,29 @@
-/* Base styles */
+@charset "UTF-8";
+
+@font-face {
+	font-family: 'Mulish';
+	src: url('/-/styles/mulish-variablefont_wght.ttf') format('truetype');
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+	box-sizing: border-box;
+	font-family: Mulish, Arial, sans-serif;
+	font-size: 1.1rem;
+	font-weight: 450;
+	line-height: 1.25rem;
+	word-wrap: anywhere;
+	overflow-wrap: break-word;
+	word-break: break-word;
+	cursor: default;
+	-webkit-tap-highlight-color: transparent;
+}
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -8,7 +33,6 @@ body {
     padding: 0;
 }
 
-/* Header styles */
 header {
     background: #007acc;
     color: #fff;
@@ -21,7 +45,6 @@ header {
     font-style: italic;
 }
 
-/* Article styles */
 article {
     max-width: 800px;
     margin: 20px auto;
@@ -38,7 +61,6 @@ article h2 {
     color: #007acc;
 }
 
-/* Footer styles */
 footer {
     background: #333;
     color: #fff;
