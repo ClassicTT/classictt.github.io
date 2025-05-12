@@ -284,3 +284,7 @@ article {
 body {
 	background: linear-gradient(to bottom right, #FFD054, #F67454);
 }
+header {
+    padding: 20px;
+    text-align: center;
+}
