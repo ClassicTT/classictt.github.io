@@ -3,10 +3,6 @@ function injectContent() {
     document.getElementById('page-nav').innerHTML = '<a href="/">Home</a>';
 }
 
-injectContent();
-
-
-
 function enlargeImages() {
 	$('img[data-enlargeable]').each(function() {
 		var enlargeable = $(this).attr('data-enlargeable');
@@ -37,3 +33,8 @@ function enlargeImages() {
 		});
 	});
 }
+
+
+
+injectContent();
+enlargeImages();
