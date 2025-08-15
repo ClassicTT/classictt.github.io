@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Trustpilot Stars Demo</title>
+</head>
+<body>
+  <h1>Trustpilot Star Rating</h1>
+  <div id="result" style="margin-top: 20px; font-size: 1.2em;"></div>
+
+  <script>
+    const API_KEY = "YOUR_API_KEY";
+    const DOMAIN = "kaspahub.org";
+
+    async function getBusinessUnitId(domain) {
+      const url = `https://api.trustpilot.com/v1/business-units/find?website=${encodeURIComponent(domain)}`;
+      const response = await fetch(url, { headers: { "apikey": API_KEY } });
+      if (!response.ok) throw new Error("Could not find Trustpilot profile for this domain");
+      const data = await response.json();
+      return data.id;
+    }
+
+    async function getStarsByBusinessUnitId(id) {
+      const url = `https://api.trustpilot.com/v1/business-units/${id}`;
+      const response = await fetch(url, { headers: { "apikey": API_KEY } });
+      if (!response.ok) throw new Error("Failed to get business unit details");
+      const data = await response.json();
+      return {
+        stars: data.score.stars,
+        trustScore: data.score.trustScore,
+        reviews: data.numberOfReviews.total
+      };
+    }
+
+    async function showTrustpilotRating() {
+      const resultDiv = document.getElementById("result");
+      resultDiv.textContent = "Loading...";
+      try {
+        const businessUnitId = await getBusinessUnitId(DOMAIN);
+        const { stars, trustScore, reviews } = await getStarsByBusinessUnitId(businessUnitId);
+        resultDiv.innerHTML = `
+          ⭐ Stars: <strong>${stars}</strong><br>
+          🔹 TrustScore: <strong>${trustScore}</strong> / 10<br>
+          💬 Total Reviews: <strong>${reviews}</strong>
+        `;
+      } catch (err) {
+        resultDiv.textContent = err.message;
+      }
+    }
+
+    showTrustpilotRating();
+  </script>
+</body>
+</html>
