@@ -5,16 +5,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailsSection = document.getElementById('details');
     const detailsContent = document.getElementById('details-content');
 
+    // Use a public CORS proxy URL
+    const CORS_PROXY_URL = 'https://corsproxy.io/?';
+
+    // A working Kaspa API that has the desired endpoints
     const API_BASE_URL = 'https://api.kaspa.live/v1';
 
+    // Function to fetch and display the latest blocks
     async function fetchLatestBlocks() {
         try {
-            const response = await fetch(`${API_BASE_URL}/blocks?limit=10`);
+            // Encode the original API URL to be a valid part of the proxy URL
+            const url = `${CORS_PROXY_URL}${encodeURIComponent(`${API_BASE_URL}/blocks?limit=10`)}`;
+            const response = await fetch(url);
+            
             if (!response.ok) {
                 throw new Error('API request failed with status: ' + response.status);
             }
             const data = await response.json();
-            const blocks = data.data;
+            const blocks = data.data; // Data is nested under the 'data' key
 
             blocksList.innerHTML = '';
             if (Array.isArray(blocks)) {
@@ -32,10 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Error fetching blocks:', error);
-            blocksList.innerHTML = '<p>Failed to load blocks. Please check the API URL.</p>';
+            blocksList.innerHTML = '<p>Failed to load blocks. Please check the API URL or proxy status.</p>';
         }
     }
 
+    // Function to search for a specific block by hash
     async function searchBlockchain() {
         const query = searchInput.value;
         if (!query) return;
@@ -44,12 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
         detailsContent.innerHTML = '<p>Loading...</p>';
 
         try {
-            const response = await fetch(`${API_BASE_URL}/blocks/${query}`);
+            // Encode the original search API URL
+            const url = `${CORS_PROXY_URL}${encodeURIComponent(`${API_BASE_URL}/blocks/${query}`)}`;
+            const response = await fetch(url);
+
             if (!response.ok) {
                 throw new Error('API request failed with status: ' + response.status);
             }
             const data = await response.json();
-            const block = data.data; 
+            const block = data.data; // Data is nested under the 'data' key
 
             detailsContent.innerHTML = `
                 <h3>Block Details</h3>
@@ -63,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Event listeners remain the same
     searchButton.addEventListener('click', searchBlockchain);
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
@@ -70,5 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Initial load
     fetchLatestBlocks();
 });
