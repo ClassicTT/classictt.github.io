@@ -5,32 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const detailsSection = document.getElementById('details');
     const detailsContent = document.getElementById('details-content');
 
-    // Use a public CORS proxy URL
-    const CORS_PROXY_URL = 'https://corsproxy.io/?';
-
-    // A working Kaspa API that has the desired endpoints
-    const API_BASE_URL = 'https://api.kaspa.live/v1';
+    // Use a public Kaspa explorer API with CORS enabled.
+    // NOTE: This API is from a community-run project and may change.
+    const API_BASE_URL = 'https://api.kaspa.org/info';
 
     // Function to fetch and display the latest blocks
     async function fetchLatestBlocks() {
         try {
-            // Encode the original API URL to be a valid part of the proxy URL
-            const url = `${CORS_PROXY_URL}${encodeURIComponent(`${API_BASE_URL}/blocks?limit=10`)}`;
-            const response = await fetch(url);
+            // This endpoint seems to be a more reliable one.
+            const response = await fetch(`${API_BASE_URL}/blocks?limit=10`);
             
             if (!response.ok) {
                 throw new Error('API request failed with status: ' + response.status);
             }
-            const data = await response.json();
-            const blocks = data.data; // Data is nested under the 'data' key
+
+            const blocks = await response.json();
 
             blocksList.innerHTML = '';
+            // The JSON response is an array of objects
             if (Array.isArray(blocks)) {
                 blocks.forEach(block => {
                     const blockDiv = document.createElement('div');
                     blockDiv.className = 'block-item';
                     blockDiv.innerHTML = `
-                        <p><strong>Hash:</strong> ${block.block_hash}</p>
+                        <p><strong>Hash:</strong> ${block.hash}</p>
                         <p><strong>Time:</strong> ${new Date(block.timestamp).toLocaleString()}</p>
                     `;
                     blocksList.appendChild(blockDiv);
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Error fetching blocks:', error);
-            blocksList.innerHTML = '<p>Failed to load blocks. Please check the API URL or proxy status.</p>';
+            blocksList.innerHTML = '<p>Failed to load blocks. The API endpoint may be down or has changed.</p>';
         }
     }
 
@@ -53,21 +51,19 @@ document.addEventListener('DOMContentLoaded', () => {
         detailsContent.innerHTML = '<p>Loading...</p>';
 
         try {
-            // Encode the original search API URL
-            const url = `${CORS_PROXY_URL}${encodeURIComponent(`${API_BASE_URL}/blocks/${query}`)}`;
-            const response = await fetch(url);
+            // Endpoint to get a specific block by hash
+            const response = await fetch(`${API_BASE_URL}/block/${query}`);
 
             if (!response.ok) {
                 throw new Error('API request failed with status: ' + response.status);
             }
-            const data = await response.json();
-            const block = data.data; // Data is nested under the 'data' key
-
+            const block = await response.json();
+            
             detailsContent.innerHTML = `
                 <h3>Block Details</h3>
-                <p><strong>Hash:</strong> ${block.block_hash}</p>
-                <p><strong>Blue Score:</strong> ${block.blue_score}</p>
-                <p><strong>Number of Transactions:</strong> ${block.transaction_count}</p>
+                <p><strong>Hash:</strong> ${block.hash}</p>
+                <p><strong>Blue Score:</strong> ${block.blueScore}</p>
+                <p><strong>Number of Transactions:</strong> ${block.transactionIds.length}</p>
             `;
         } catch (error) {
             console.error('Error searching:', error);
@@ -75,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Event listeners remain the same
+    // Event listeners
     searchButton.addEventListener('click', searchBlockchain);
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
